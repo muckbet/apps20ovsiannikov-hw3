@@ -1,15 +1,25 @@
 package ua.edu.ucu.smartarr;
 
-public class BaseArray implements SmartArray {
-    protected Object[] array;
+import java.util.Arrays;
 
-    public BaseArray(Object[] array, String operation) {
-        this.setArray(array.clone());
+// Base array for decorators
+public class BaseArray implements SmartArray {
+    private  String operation = "Base Array";
+    private Object[] array;
+
+
+    public BaseArray(Object[] arr) {
+        array = Arrays.copyOf(arr, arr.length);
+    }
+
+    protected BaseArray(Object[] arr, String arrOperation) {
+        array = Arrays.copyOf(arr, arr.length);
+        operation = arrOperation;
     }
 
     @Override
     public Object[] toArray() {
-        return this.getArray().clone();
+        return Arrays.copyOf(array, array.length);
     }
 
     @Override
@@ -19,16 +29,6 @@ public class BaseArray implements SmartArray {
 
     @Override
     public int size() {
-        return this.getArray().length;
-    }
-
-    public Object[] getArray() {
-        return array;
-    }
-
-    public void setValue(int index){array[index] = 0;}
-
-    public void setArray(Object[] array) {
-        this.array = array;
+        return array.length;
     }
 }
