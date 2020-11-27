@@ -1,32 +1,28 @@
 package ua.edu.ucu.smartarr;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 // Remove duplicates from SmartArray. Use method equals() to compare objects
 public class DistinctDecorator extends SmartArrayDecorator {
+    private String operation = "DIST";
+
     public DistinctDecorator(SmartArray arr) {
         super(arr);
+        distinct();
     }
 
-    private Object[] delRepeats(Object[] arr) {
-        ArrayList<Object> result = new ArrayList<>();
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = i+1; j < arr.length; j++) {
-                if (!arr[i].equals(arr[j]) && !result.contains(arr[i])) {
-                    result.add(arr[i]);
-                }
-            }
-        }
-        return result.toArray();
+    private void distinct() {
+        Object[] array = smartArray.toArray();
+        Object[] distinctArray = Arrays.stream(array).distinct().toArray();
+        smartArray = new BaseArray(distinctArray, operation);
     }
 
     @Override
     public Object[] toArray() {
         return smartArray.toArray();
     }
-
     @Override
-    public String operationDescription() {
+    public final String operationDescription() {
         return smartArray.operationDescription();
     }
 
