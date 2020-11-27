@@ -86,6 +86,6 @@ public class SmartArrayApp {
         smartArray = new MapDecorator(new DistinctDecorator(new FilterDecorator(
                 new SortDecorator(smartArray, cmpSurnames), pred)), func);
         Object[] filtered = smartArray.toArray();
-        return Arrays.copyOf(filtered, filtered.length, String[].class);
+        return Arrays.copyOf(filtered, filtered.length-1, String[].class);
     }
 }
