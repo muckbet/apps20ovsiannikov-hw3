@@ -6,17 +6,12 @@ import ua.edu.ucu.functions.MyFunction;
 import ua.edu.ucu.functions.MyPredicate;
 import ua.edu.ucu.smartarr.*;
 
-public class SmartArrayApp {
+class SmartArrayApp {
 
-    public static Integer[]
+    static Integer[]
             filterPositiveIntegersSortAndMultiplyBy2(Integer[] integers) {
                 
-        MyPredicate pr = new MyPredicate() {
-            @Override
-            public boolean test(Object t) {
-                return ((Integer) t) > 0;
-            }
-        };
+        MyPredicate pr = t -> ((Integer) t) > 0;
 
         MyComparator cmp = new MyComparator() {
             @Override
@@ -25,12 +20,7 @@ public class SmartArrayApp {
             }
         };
 
-        MyFunction func = new MyFunction() {
-            @Override
-            public Object apply(Object t) {
-                return 2 * ((Integer) t);
-            }
-        };
+        MyFunction func = t -> 2 * ((Integer) t);
 
         // Input: [-1, 2, 0, 1, -5, 3]
         SmartArray sa = new BaseArray(integers);
@@ -49,15 +39,13 @@ public class SmartArrayApp {
         return Arrays.copyOf(result, result.length, Integer[].class);
     }
 
-    public static String[]
+    static String[]
             findDistinctStudentNamesFrom2ndYearWithGPAgt4AndOrderedBySurname(Student[] students) {
+
         SmartArray smartArray = new BaseArray(students);
-        MyPredicate pred = new MyPredicate() {
-            @Override
-            public boolean test(Object object) {
-                Student student = (Student) object;
-                return student.getYear() == 2 && student.getGPA() >= 4;
-            }
+        MyPredicate pred = object -> {
+            Student student = (Student) object;
+            return student.getYear() == 2 && student.getGPA() >= 4;
         };
 
         MyComparator cmpSurnames = new MyComparator() {
@@ -76,12 +64,7 @@ public class SmartArrayApp {
         // Hint: to convert Object[] to String[] - use the following code
         //Object[] result = studentSmartArray.toArray();
         //return Arrays.copyOf(result, result.length, String[].class);
-        MyFunction func = new MyFunction() {
-            @Override
-            public Object apply(Object t) {
-                return ((Student) t).getSurname() + " " + ((Student) t).getName();
-            }
-        };
+        MyFunction func = t -> ((Student) t).getSurname() + " " + ((Student) t).getName();
 
         smartArray = new MapDecorator(new DistinctDecorator(new FilterDecorator(
                 new SortDecorator(smartArray, cmpSurnames), pred)), func);
